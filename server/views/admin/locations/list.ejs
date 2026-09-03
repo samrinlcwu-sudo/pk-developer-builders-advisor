@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Locations' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'locations' }) %>
+
+  <div class="admin-page-header">
+    <h1>Locations</h1>
+    <a href="/admin/locations/new" class="btn btn-primary">+ Add Location</a>
+  </div>
+
+  <% if (locations.length === 0) { %>
+    <div class="content-required-block">No locations yet. Add the first one to get started.</div>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>City</th>
+          <th>Region</th>
+          <th>Published</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locations.forEach(function(l) { %>
+          <tr>
+            <td><%= l.name %></td>
+            <td><%= l.city || '—' %></td>
+            <td><%= l.region || '—' %></td>
+            <td><span class="admin-badge admin-badge--<%= l.is_published ? 'live' : 'draft' %>"><%= l.is_published ? 'Published' : 'Draft' %></span></td>
+            <td class="admin-table-actions">
+              <a href="/admin/locations/<%= l.id %>/edit">Edit</a>
+              <form method="post" action="/admin/locations/<%= l.id %>/delete" onsubmit="return confirm('Delete this location permanently?');" style="display:inline;">
+                <button type="submit" class="admin-link-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

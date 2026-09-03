@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'Properties',
+  description: 'Browse residential, commercial, and investment properties from PK Developer Builders & Advisor.',
+  canonicalPath: '/properties'
+}) %>
+</head>
+<body>
+<%- include('../partials/nav', { active: 'properties' }) %>
+
+<main id="main-content">
+
+<section class="page-hero">
+  <div class="breadcrumb"><a href="/index.html">Home</a> / Properties</div>
+  <h1>Properties</h1>
+  <p>A catalogue of residential, commercial, and investment properties — browsed, not shopped.</p>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+
+    <form class="property-search-bar" id="property-search-form" method="get" action="/properties">
+      <div class="property-search-grid">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-type">Type</label>
+          <select id="filter-type" name="type">
+            <option value="">Any Type</option>
+            <% types.forEach(function(t) { %>
+              <option value="<%= t %>" <%= query.type === t ? 'selected' : '' %>><%= t.charAt(0).toUpperCase() + t.slice(1) %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-location">Location</label>
+          <select id="filter-location" name="location">
+            <option value="">Any Location</option>
+            <% locations.forEach(function(l) { %>
+              <option value="<%= l.slug %>" <%= query.location === l.slug ? 'selected' : '' %>><%= l.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-min-price">Min Price</label>
+          <input type="number" id="filter-min-price" name="minPrice" min="0" placeholder="Any" value="<%= query.minPrice || '' %>" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-max-price">Max Price</label>
+          <input type="number" id="filter-max-price" name="maxPrice" min="0" placeholder="Any" value="<%= query.maxPrice || '' %>" />
+        </div>
+      </div>
+      <div class="property-search-grid property-search-grid--three">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-min-area">Min Area (sq ft)</label>
+          <input type="number" id="filter-min-area" name="minArea" min="0" placeholder="Any" value="<%= query.minArea || '' %>" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-bedrooms">Bedrooms</label>
+          <select id="filter-bedrooms" name="bedrooms">
+            <option value="">Any</option>
+            <option value="1" <%= query.bedrooms === '1' ? 'selected' : '' %>>1+ Bedroom</option>
+            <option value="2" <%= query.bedrooms === '2' ? 'selected' : '' %>>2+ Bedrooms</option>
+            <option value="3" <%= query.bedrooms === '3' ? 'selected' : '' %>>3+ Bedrooms</option>
+            <option value="4" <%= query.bedrooms === '4' ? 'selected' : '' %>>4+ Bedrooms</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-bathrooms">Bathrooms</label>
+          <select id="filter-bathrooms" name="bathrooms">
+            <option value="">Any</option>
+            <option value="1" <%= query.bathrooms === '1' ? 'selected' : '' %>>1+ Bathroom</option>
+            <option value="2" <%= query.bathrooms === '2' ? 'selected' : '' %>>2+ Bathrooms</option>
+            <option value="3" <%= query.bathrooms === '3' ? 'selected' : '' %>>3+ Bathrooms</option>
+          </select>
+        </div>
+      </div>
+      <div class="property-search-grid property-search-grid--three">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filter-status">Status</label>
+          <select id="filter-status" name="status">
+            <option value="">Any Status</option>
+            <% statuses.forEach(function(s) { %>
+              <option value="<%= s %>" <%= query.status === s ? 'selected' : '' %>><%= s.charAt(0).toUpperCase() + s.slice(1) %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+      <div class="property-search-actions">
+        <button type="submit" class="btn btn-primary">Search Properties</button>
+      </div>
+    </form>
+
+    <% if (properties.length === 0) { %>
+      <div id="property-no-results" class="content-required-block" style="margin-bottom:32px;">No properties match those filters yet.</div>
+    <% } else { %>
+      <div class="grid-3">
+        <% properties.forEach(function(p) { %>
+          <div class="property-card">
+            <div class="img-placeholder">
+              <% if (p.images && p.images.length) { %>
+                <img src="<%= p.images[0].file_path %>" alt="<%= p.title %>" style="width:100%; height:100%; object-fit:cover;" />
+              <% } else { %>
+                <%- crBlock('Property photo') %>
+              <% } %>
+              <span class="status-badge status-badge--<%= p.status %>"><%= p.status.charAt(0).toUpperCase() + p.status.slice(1) %></span>
+            </div>
+            <div class="property-card-body">
+              <div class="property-card-meta"><%= p.type.charAt(0).toUpperCase() + p.type.slice(1) %> &middot; <%- cr(p.location_name, 'Location') %></div>
+              <h3><%= p.title %></h3>
+              <div class="property-card-price"><%- p.price != null ? formatPrice(p.price, p.price_currency) : cr(null, 'Price') %></div>
+              <div class="property-card-specs">
+                <span><%- p.area_sqft != null ? formatArea(p.area_sqft) : cr(null, 'Area') %></span>
+                <% if (p.bedrooms != null) { %><span><%= p.bedrooms %> Bed</span><% } %>
+                <% if (p.bathrooms != null) { %><span><%= p.bathrooms %> Bath</span><% } %>
+              </div>
+              <div class="property-card-actions">
+                <a href="/properties/<%= p.slug %>" class="btn btn-primary" style="padding:10px 20px; font-size:0.85rem;">View Property</a>
+                <a href="/contact.html" class="btn btn-outline-navy" style="padding:10px 20px; font-size:0.85rem;">Request Property Information</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <% if (pagination.totalPages > 1) { %>
+        <div class="property-search-actions" style="margin-top:32px; gap:12px;">
+          <% for (let i = 1; i <= pagination.totalPages; i++) {
+            const params = new URLSearchParams(query);
+            params.set('page', i);
+          %>
+            <a href="/properties?<%= params.toString() %>" class="btn <%= i === pagination.page ? 'btn-primary' : 'btn-outline-navy' %>" style="padding:8px 16px; font-size:0.85rem;"><%= i %></a>
+          <% } %>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+</section>
+
+<section class="cta-band fade-in">
+  <div class="container">
+    <h2>Don't see what you're looking for?</h2>
+    <p>Tell us your requirements and we'll help you find the right property.</p>
+    <a href="/contact.html" class="btn btn-primary">Talk to an Advisor</a>
+  </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

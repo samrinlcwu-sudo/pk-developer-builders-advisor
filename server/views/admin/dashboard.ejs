@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Dashboard' }) %>
+</head>
+<body>
+<%- include('partials/shell-open', { active: 'dashboard' }) %>
+
+  <h1>Dashboard</h1>
+  <div class="admin-stat-grid">
+    <a href="/admin/properties" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.propertyCount %></span>
+      <span class="admin-stat-label">Total Properties</span>
+    </a>
+    <a href="/admin/properties" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.publishedPropertyCount %></span>
+      <span class="admin-stat-label">Published Properties</span>
+    </a>
+    <a href="/admin/projects" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.projectCount %></span>
+      <span class="admin-stat-label">Total Projects</span>
+    </a>
+    <a href="/admin/projects" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.publishedProjectCount %></span>
+      <span class="admin-stat-label">Published Projects</span>
+    </a>
+    <a href="/admin/locations" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.locationCount %></span>
+      <span class="admin-stat-label">Locations</span>
+    </a>
+    <a href="/admin/agents" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.agentCount %></span>
+      <span class="admin-stat-label">Agents</span>
+    </a>
+    <a href="/admin/team" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.teamCount %></span>
+      <span class="admin-stat-label">Team Members</span>
+    </a>
+    <a href="/admin/testimonials" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.testimonialCount %></span>
+      <span class="admin-stat-label">Testimonials</span>
+    </a>
+    <a href="/admin/articles" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.articleCount %></span>
+      <span class="admin-stat-label">Total Articles</span>
+    </a>
+    <a href="/admin/articles" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.publishedArticleCount %></span>
+      <span class="admin-stat-label">Published Articles</span>
+    </a>
+    <a href="/admin/enquiries" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.enquiryCount %></span>
+      <span class="admin-stat-label">Total Enquiries</span>
+    </a>
+    <a href="/admin/enquiries?status=new" class="admin-stat-card">
+      <span class="admin-stat-number"><%= stats.newEnquiryCount %></span>
+      <span class="admin-stat-label">New Enquiries</span>
+    </a>
+  </div>
+
+<%- include('partials/shell-close') %>
+</body>
+</html>

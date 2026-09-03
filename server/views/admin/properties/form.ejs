@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: property ? 'Edit Property' : 'New Property' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'properties' }) %>
+
+  <div class="admin-page-header">
+    <h1><%= property ? 'Edit Property' : 'New Property' %></h1>
+    <a href="/admin/properties">&larr; Back to Properties</a>
+  </div>
+
+  <% if (errors && errors.length) { %>
+    <div class="admin-alert admin-alert--error">
+      <ul style="margin:0; padding-left:20px;">
+        <% errors.forEach(function(e) { %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form method="post" action="<%= property ? `/admin/properties/${property.id}` : '/admin/properties' %>" class="admin-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input type="text" id="title" name="title" required value="<%= property ? property.title : '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="slug">Slug (leave blank to auto-generate from title)</label>
+        <input type="text" id="slug" name="slug" value="<%= property ? property.slug : '' %>" placeholder="auto-generated" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="type">Type *</label>
+        <select id="type" name="type" required>
+          <option value="">Select a type</option>
+          <% types.forEach(function(t) { %>
+            <option value="<%= t %>" <%= property && property.type === t ? 'selected' : '' %>><%= t %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <% statuses.forEach(function(s) { %>
+            <option value="<%= s %>" <%= property && property.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="locationId">Location</label>
+        <select id="locationId" name="locationId">
+          <option value="">No location selected</option>
+          <% locations.forEach(function(l) { %>
+            <option value="<%= l.id %>" <%= property && property.location_id === l.id ? 'selected' : '' %>><%= l.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="agentId">Agent (optional)</label>
+        <select id="agentId" name="agentId">
+          <option value="">No agent assigned</option>
+          <% agents.forEach(function(a) { %>
+            <option value="<%= a.id %>" <%= property && property.agent_id === a.id ? 'selected' : '' %>><%= a.name %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Price (PKR)</label>
+        <input type="number" id="price" name="price" min="0" value="<%= property && property.price != null ? property.price : '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="areaSqft">Area (sq ft)</label>
+        <input type="number" id="areaSqft" name="areaSqft" min="0" value="<%= property && property.area_sqft != null ? property.area_sqft : '' %>" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="bedrooms">Bedrooms (leave blank if not applicable)</label>
+        <input type="number" id="bedrooms" name="bedrooms" min="0" value="<%= property && property.bedrooms != null ? property.bedrooms : '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="bathrooms">Bathrooms (leave blank if not applicable)</label>
+        <input type="number" id="bathrooms" name="bathrooms" min="0" value="<%= property && property.bathrooms != null ? property.bathrooms : '' %>" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4"><%= property ? property.description || '' : '' %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="mapEmbedUrl">Google Maps embed URL (optional)</label>
+      <input type="text" id="mapEmbedUrl" name="mapEmbedUrl" value="<%= property ? property.map_embed_url || '' : '' %>" />
+    </div>
+
+    <div class="form-group">
+      <label for="featuresText">Features (one per line)</label>
+      <textarea id="featuresText" name="featuresText" rows="4"><%= property && property.features ? property.features.map(f => f.label).join('\n') : '' %></textarea>
+    </div>
+
+    <div class="form-group admin-checkbox-row">
+      <input type="checkbox" id="isPublished" name="isPublished" <%= property && property.is_published ? 'checked' : '' %> />
+      <label for="isPublished" style="margin:0;">Published (visible on the public site)</label>
+    </div>
+    <p style="color:var(--color-gray); font-size:0.85rem; margin-top:-8px;">Requires a title, type, location, and at least one image.</p>
+
+    <button type="submit" class="btn btn-primary"><%= property ? 'Save Changes' : 'Create Property' %></button>
+  </form>
+
+  <% if (property) { %>
+    <div class="admin-section">
+      <h2>Photos</h2>
+      <% if (property.images && property.images.length) { %>
+        <div class="admin-image-grid">
+          <% property.images.forEach(function(img) { %>
+            <div class="admin-image-card">
+              <img src="<%= img.file_path %>" alt="" />
+              <form method="post" action="/admin/properties/<%= property.id %>/images/<%= img.id %>/delete" onsubmit="return confirm('Remove this photo?');">
+                <button type="submit" class="admin-link-btn">Remove</button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="content-required-block">No photos uploaded yet — a property needs at least one before it can be published.</div>
+      <% } %>
+      <form method="post" action="/admin/properties/<%= property.id %>/images" enctype="multipart/form-data" class="admin-upload-form">
+        <input type="file" name="images" accept="image/jpeg,image/png,image/webp" multiple required />
+        <button type="submit" class="btn btn-outline-navy">Upload Photo(s)</button>
+      </form>
+    </div>
+  <% } %>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

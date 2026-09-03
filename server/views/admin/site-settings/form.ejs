@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Site Settings' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'site-settings' }) %>
+
+  <div class="admin-page-header">
+    <h1>Site Settings</h1>
+  </div>
+
+  <% if (saved) { %>
+    <div class="admin-alert" style="background:#eaf5ea; border:1px solid #2c6b2c; color:#1d4a1d;">Settings saved.</div>
+  <% } %>
+
+  <form method="post" action="/admin/site-settings" class="admin-form">
+    <h2 style="margin-top:0;">Homepage Stats Band</h2>
+    <p style="color:var(--color-gray); font-size:0.85rem; margin-top:-8px; margin-bottom:20px;">These four numbers appear on the homepage. Leave a field blank to show a "content required" placeholder instead of an unverified number.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="stat_years">Years of Experience</label>
+        <input type="text" id="stat_years" name="stat_years" value="<%= settings.stat_years || '' %>" placeholder="e.g. 16+" />
+      </div>
+      <div class="form-group">
+        <label for="stat_projects">Projects Delivered</label>
+        <input type="text" id="stat_projects" name="stat_projects" value="<%= settings.stat_projects || '' %>" placeholder="e.g. 75+" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="stat_clients">Clients Served</label>
+        <input type="text" id="stat_clients" name="stat_clients" value="<%= settings.stat_clients || '' %>" placeholder="e.g. 250+" />
+      </div>
+      <div class="form-group">
+        <label for="stat_cities">Cities of Operation</label>
+        <input type="text" id="stat_cities" name="stat_cities" value="<%= settings.stat_cities || '' %>" placeholder="e.g. 8+" />
+      </div>
+    </div>
+
+    <h2>WhatsApp Click-to-Chat</h2>
+    <p style="color:var(--color-gray); font-size:0.85rem; margin-top:-8px; margin-bottom:20px;">When set, a WhatsApp button appears on every page linking to this number. Leave blank to hide the button — never guess or reuse a phone number without confirming it's a working WhatsApp number.</p>
+    <div class="form-group">
+      <label for="whatsapp_number">WhatsApp Number (with country code, digits only, e.g. 923001234567)</label>
+      <input type="text" id="whatsapp_number" name="whatsapp_number" value="<%= settings.whatsapp_number || '' %>" placeholder="e.g. 923001234567" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+  </form>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

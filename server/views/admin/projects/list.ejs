@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Projects' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'projects' }) %>
+
+  <div class="admin-page-header">
+    <h1>Projects</h1>
+    <a href="/admin/projects/new" class="btn btn-primary">+ Add Project</a>
+  </div>
+
+  <% if (projects.length === 0) { %>
+    <div class="content-required-block">No projects yet. Add the first one to get started.</div>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Published</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% projects.forEach(function(p) { %>
+          <tr>
+            <td><%= p.title %></td>
+            <td><%= p.status %></td>
+            <td><%= p.location_name || '—' %></td>
+            <td><span class="admin-badge admin-badge--<%= p.is_published ? 'live' : 'draft' %>"><%= p.is_published ? 'Published' : 'Draft' %></span></td>
+            <td class="admin-table-actions">
+              <a href="/admin/projects/<%= p.id %>/edit">Edit</a>
+              <form method="post" action="/admin/projects/<%= p.id %>/delete" onsubmit="return confirm('Delete this project permanently?');" style="display:inline;">
+                <button type="submit" class="admin-link-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

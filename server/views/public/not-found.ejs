@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'Not Found',
+  description: 'The page you requested could not be found.',
+  canonicalPath: '/'
+}) %>
+</head>
+<body>
+<%- include('../partials/nav', { active: '' }) %>
+
+<main id="main-content">
+<section class="page-hero">
+  <h1>Not Found</h1>
+  <p>The <%= item %> you're looking for doesn't exist or is no longer published.</p>
+  <%
+  const backPaths = { property: 'properties', project: 'projects', article: 'insights' };
+  const backLabels = { property: 'Properties', project: 'Projects', article: 'Insights' };
+  const backPath = backPaths[item] || '';
+  const backLabel = backLabels[item] || 'Home';
+%>
+<a href="/<%= backPath %>" class="btn btn-primary" style="margin-top:16px; display:inline-block;">Back to <%= backLabel %></a>
+</section>
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

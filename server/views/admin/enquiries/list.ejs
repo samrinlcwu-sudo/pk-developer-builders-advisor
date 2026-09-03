@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Enquiries' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'enquiries' }) %>
+
+  <div class="admin-page-header">
+    <h1>Enquiries</h1>
+    <a href="<%= exportUrl %>" class="btn btn-outline-navy">Export CSV</a>
+  </div>
+
+  <form method="get" action="/admin/enquiries" class="property-search-bar" style="margin-bottom:24px;">
+    <div class="property-search-grid">
+      <div class="form-group" style="margin-bottom:0;">
+        <label for="filter-type">Type</label>
+        <select id="filter-type" name="type">
+          <option value="">Any Type</option>
+          <% types.forEach(function(t) { %>
+            <option value="<%= t %>" <%= filters.type === t ? 'selected' : '' %>><%= t %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label for="filter-status">Status</label>
+        <select id="filter-status" name="status">
+          <option value="">Any Status</option>
+          <% statuses.forEach(function(s) { %>
+            <option value="<%= s %>" <%= filters.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+    <div class="property-search-actions">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+
+  <% if (enquiries.length === 0) { %>
+    <div class="content-required-block">No enquiries yet.</div>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Message</th>
+          <th>Notified</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% enquiries.forEach(function(e) { %>
+          <tr>
+            <td><%= e.created_at %></td>
+            <td><%= e.type %></td>
+            <td><%= e.name || '—' %></td>
+            <td><%= e.phone || '' %><% if (e.phone && e.email) { %><br><% } %><%= e.email || '' %></td>
+            <td style="max-width:220px; white-space:normal;"><%= e.message ? (e.message.length > 100 ? e.message.slice(0, 100) + '…' : e.message) : '—' %></td>
+            <td>
+              <% if (!e.notified_at) { %>
+                <span class="admin-badge admin-badge--draft">Pending</span>
+              <% } else if (e.notify_error) { %>
+                <span class="admin-badge admin-badge--draft" title="<%= e.notify_error %>">Not sent</span>
+              <% } else { %>
+                <span class="admin-badge admin-badge--live">Sent</span>
+              <% } %>
+            </td>
+            <td>
+              <form method="post" action="/admin/enquiries/<%= e.id %>/status" style="display:flex; gap:8px; align-items:center;">
+                <select name="status" onchange="this.form.submit()">
+                  <% statuses.forEach(function(s) { %>
+                    <option value="<%= s %>" <%= e.status === s ? 'selected' : '' %>><%= s %></option>
+                  <% }) %>
+                </select>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

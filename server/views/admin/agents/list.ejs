@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: 'Agents' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'agents' }) %>
+
+  <div class="admin-page-header">
+    <h1>Agents</h1>
+    <a href="/admin/agents/new" class="btn btn-primary">+ Add Agent</a>
+  </div>
+
+  <% if (agents.length === 0) { %>
+    <div class="content-required-block">No agents yet. Add the first one to get started.</div>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Phone</th>
+          <th>Published</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% agents.forEach(function(a) { %>
+          <tr>
+            <td><%= a.name %></td>
+            <td><%= a.role_title || '—' %></td>
+            <td><%= a.phone || '—' %></td>
+            <td><span class="admin-badge admin-badge--<%= a.is_published ? 'live' : 'draft' %>"><%= a.is_published ? 'Published' : 'Draft' %></span></td>
+            <td class="admin-table-actions">
+              <a href="/admin/agents/<%= a.id %>/edit">Edit</a>
+              <form method="post" action="/admin/agents/<%= a.id %>/delete" onsubmit="return confirm('Delete this agent permanently?');" style="display:inline;">
+                <button type="submit" class="admin-link-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

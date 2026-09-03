@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', { title: testimonial ? 'Edit Testimonial' : 'New Testimonial' }) %>
+</head>
+<body>
+<%- include('../partials/shell-open', { active: 'testimonials' }) %>
+
+  <div class="admin-page-header">
+    <h1><%= testimonial ? 'Edit Testimonial' : 'New Testimonial' %></h1>
+    <a href="/admin/testimonials">&larr; Back to Testimonials</a>
+  </div>
+
+  <% if (errors && errors.length) { %>
+    <div class="admin-alert admin-alert--error">
+      <ul style="margin:0; padding-left:20px;">
+        <% errors.forEach(function(e) { %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form method="post" action="<%= testimonial ? `/admin/testimonials/${testimonial.id}` : '/admin/testimonials' %>" class="admin-form">
+    <div class="form-group">
+      <label for="quote">Quote *</label>
+      <textarea id="quote" name="quote" rows="4" required><%= testimonial ? testimonial.quote : '' %></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="authorName">Author Name *</label>
+        <input type="text" id="authorName" name="authorName" required value="<%= testimonial ? testimonial.author_name : '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="authorRole">Author Role</label>
+        <input type="text" id="authorRole" name="authorRole" value="<%= testimonial && testimonial.author_role ? testimonial.author_role : '' %>" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="sortOrder">Display Order</label>
+      <input type="number" id="sortOrder" name="sortOrder" value="<%= testimonial ? testimonial.sort_order : 0 %>" />
+    </div>
+
+    <div class="form-group admin-checkbox-row">
+      <input type="checkbox" id="isVerified" name="isVerified" <%= testimonial && testimonial.is_verified ? 'checked' : '' %> />
+      <label for="isVerified" style="margin:0;">Verified (this quote has been confirmed with the client)</label>
+    </div>
+
+    <div class="form-group admin-checkbox-row">
+      <input type="checkbox" id="isPublished" name="isPublished" <%= testimonial && testimonial.is_published ? 'checked' : '' %> />
+      <label for="isPublished" style="margin:0;">Published (visible on the public site)</label>
+    </div>
+    <p style="color:var(--color-gray); font-size:0.85rem; margin-top:-8px;">Requires verification before it can be published.</p>
+
+    <button type="submit" class="btn btn-primary"><%= testimonial ? 'Save Changes' : 'Create Testimonial' %></button>
+  </form>
+
+<%- include('../partials/shell-close') %>
+</body>
+</html>

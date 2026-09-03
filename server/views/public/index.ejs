@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'Property Development, Construction & Real Estate Advisory',
+  description: "PK Developer Builders & Advisor — trusted property development, construction, and real estate advisory services built on transparency and quality.",
+  canonicalPath: '/'
+}) %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PK Developer Builders & Advisor",
+  "url": "https://redb.nimble.pk/",
+  "description": "Property developer, builder, and real estate advisor."
+}
+</script>
+</head>
+<body>
+<%- include('../partials/nav', { active: 'home' }) %>
+
+<main id="main-content">
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Property Developer &middot; Builder &middot; Real Estate Advisor</span>
+    <h1>Creating Places. Building Trust. Delivering Value.</h1>
+    <p>Property development, construction and real estate advisory — built on integrity, driven by quality, focused on you.</p>
+    <div class="hero-actions">
+      <a href="/projects" class="btn btn-primary">Explore Projects</a>
+      <a href="/contact.html" class="btn btn-secondary">Talk to an Advisor</a>
+      <a href="/properties" class="btn btn-secondary">View Properties</a>
+    </div>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="container">
+    <div class="trust-item"><span class="dot"></span> Transparent Process</div>
+    <div class="trust-item"><span class="dot"></span> End-to-End Development</div>
+    <div class="trust-item"><span class="dot"></span> Quality-First Construction</div>
+    <div class="trust-item"><span class="dot"></span> Advisory You Can Trust</div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container grid-2">
+    <div>
+      <span class="eyebrow">Who We Are</span>
+      <h2>A partner across the full lifecycle of your property.</h2>
+      <p style="color:var(--color-gray); margin-bottom:20px;">
+        Founded in 2010 by M. Zeeshan Awan, PK Developer Builders & Advisor was established with a vision to bring trust, professionalism, and quality to property development, construction, and real-estate advisory. What sets us apart is our commitment to understanding each client's needs, providing transparent and professional guidance, and creating lasting value through quality-driven development and strong client relationships.
+      </p>
+      <p style="color:var(--color-gray); margin-bottom:28px;">
+        We work as developer, builder, and advisor under one roof — so plans, construction, and investment decisions stay aligned from the first sketch to final handover.
+      </p>
+      <a href="/about.html" class="btn btn-outline-navy">More About Us</a>
+    </div>
+    <img src="/assets/homepage-flagship.png" alt="PK Developer Builders & Advisor office" class="photo-frame">
+  </div>
+</section>
+
+<section class="stats-band fade-in">
+  <div class="container grid-4">
+    <div>
+      <div class="stat-number"><%- cr(settings.stat_years, 'Years of experience') %></div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div>
+      <div class="stat-number"><%- cr(settings.stat_projects, 'Projects delivered') %></div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div>
+      <div class="stat-number"><%- cr(settings.stat_clients, 'Clients served') %></div>
+      <div class="stat-label">Clients Served</div>
+    </div>
+    <div>
+      <div class="stat-number"><%- cr(settings.stat_cities, 'Cities of operation') %></div>
+      <div class="stat-label">Cities of Operation</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">What We Do</span>
+      <h2>Six ways we help. One accountable team.</h2>
+      <p>From raising a building to guiding an investment decision, every service is delivered with the same standard of care.</p>
+    </div>
+    <div class="grid-3">
+      <a class="card" href="/development.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"/><rect x="9" y="6.5" width="2" height="2"/><rect x="13" y="6.5" width="2" height="2"/><rect x="9" y="11" width="2" height="2"/><rect x="13" y="11" width="2" height="2"/><rect x="9" y="15.5" width="2" height="2"/><rect x="13" y="15.5" width="2" height="2"/></svg></div>
+        <h3>Property Development</h3>
+        <p>End-to-end planning and delivery of residential and commercial developments — from land assessment to design coordination and project delivery.</p>
+      </a>
+      <a class="card" href="/construction.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><rect x="9" y="5" width="6" height="14" rx="2"/><circle cx="12" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/></g></svg></div>
+        <h3>Construction & Building</h3>
+        <p>Quality-focused construction management, on-site execution, and contractor coordination that keeps projects on schedule and to spec.</p>
+      </a>
+      <a class="card" href="/advisory.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="14" width="3" height="6"/><rect x="11" y="10" width="3" height="10"/><rect x="16" y="6" width="3" height="14"/></svg></div>
+        <h3>Real Estate Advisory</h3>
+        <p>Honest, informed guidance for buyers, sellers, and investors — market insight without pressure or guaranteed-return promises.</p>
+      </a>
+      <a class="card" href="/services.html#investment">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></div>
+        <h3>Property Investment</h3>
+        <p>Support for building and managing a property portfolio — grounded in market data, never in guaranteed-return promises.</p>
+      </a>
+      <a class="card" href="/services.html#sales">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="21" x2="21" y2="21"/><line x1="4" y1="10" x2="20" y2="10"/><polyline points="3,10 12,4 21,10"/><line x1="6" y1="10" x2="6" y2="18"/><line x1="12" y1="10" x2="12" y2="18"/><line x1="18" y1="10" x2="18" y2="18"/></svg></div>
+        <h3>Property Sales</h3>
+        <p>Guidance for owners bringing a property to market — pricing, marketing coordination, and buyer negotiation.</p>
+      </a>
+      <a class="card" href="/services.html#consultation">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="11" rx="2.5"/><polyline points="8,16 8,20 12.5,16"/></svg></div>
+        <h3>Consultation</h3>
+        <p>A starting point for any property question — development feasibility, construction planning, or an investment decision.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Who We Serve</span>
+      <h2>Built for every side of a property decision</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4,11 12,4 20,11"/><path d="M6 10v9h12v-9"/></svg></div>
+        <h3>Property Buyers</h3>
+        <p>Residential, commercial, plots, and apartments — guidance from search to closing.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/></svg></div>
+        <h3>Investors</h3>
+        <p>Data-informed support for growing and managing a property portfolio.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="4"/><line x1="11" y1="11" x2="20" y2="20"/><line x1="15" y1="15" x2="18" y2="12"/><line x1="17" y1="17" x2="20" y2="14"/></svg></div>
+        <h3>Property Owners</h3>
+        <p>Development or sale support for owners looking to unlock a property's value.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><rect x="9" y="5" width="6" height="14" rx="2"/><circle cx="12" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/></g></svg></div>
+        <h3>Construction Clients</h3>
+        <p>Building and consultation services for clients with a construction project underway or ahead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Featured Work</span>
+      <h2>A selection of our projects</h2>
+    </div>
+    <% if (featuredProjects.length === 0) { %>
+      <div class="content-required-block">No published projects yet — check back soon.</div>
+    <% } else { %>
+      <div class="grid-3">
+        <% featuredProjects.forEach(function(p) { %>
+          <div class="project-card">
+            <div class="img-placeholder">
+              <% if (p.images && p.images.length) { %>
+                <img src="<%= p.images[0].file_path %>" alt="<%= p.title %>" style="width:100%; height:100%; object-fit:cover;" />
+              <% } else { %>
+                <%- crBlock('Project photo') %>
+              <% } %>
+            </div>
+            <div class="project-card-body">
+              <span class="project-tag"><%- cr(p.property_type, 'Category') %></span>
+              <h3><a href="/projects/<%= p.slug %>" style="color:inherit; text-decoration:none;"><%= p.title %></a></h3>
+              <p><%- cr(p.location_name, 'Location') %></p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+    <div style="text-align:center; margin-top:48px;">
+      <a href="/projects" class="btn btn-outline-navy">View All Projects</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Client Voices</span>
+      <h2>What clients say</h2>
+    </div>
+    <% if (testimonials.length === 0) { %>
+      <div class="content-required-block">No published testimonials yet.</div>
+    <% } else { %>
+      <div class="grid-3">
+        <% testimonials.forEach(function(t) { %>
+          <div class="testimonial-card">
+            <p class="testimonial-quote">"<%= t.quote %>"</p>
+            <div class="testimonial-author"><%= t.author_name %></div>
+            <% if (t.author_role) { %><div class="testimonial-role"><%= t.author_role %></div><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="cta-band fade-in">
+  <div class="container">
+    <h2>Have a project or property decision ahead of you?</h2>
+    <p>Talk to our team about your development, construction, or advisory needs — no obligation, just honest guidance.</p>
+    <a href="/contact.html" class="btn btn-primary">Schedule a Consultation</a>
+  </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

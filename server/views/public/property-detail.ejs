@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: property.title,
+  description: `${property.title} — property detail from PK Developer Builders & Advisor.`,
+  canonicalPath: `/properties/${property.slug}`
+}) %>
+<%
+  const propertyLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: property.title,
+    url: absoluteUrl(`/properties/${property.slug}`),
+  };
+  if (property.description) propertyLd.description = property.description;
+  if (property.images && property.images.length) {
+    propertyLd.image = property.images.map((img) => absoluteUrl(img.file_path));
+  }
+  if (property.price != null) {
+    propertyLd.offers = { "@type": "Offer", price: property.price, priceCurrency: property.price_currency || "PKR" };
+  }
+  if (property.location_name) {
+    propertyLd.address = { "@type": "PostalAddress", addressLocality: property.location_name };
+  }
+%>
+<%- jsonLd(propertyLd) %>
+</head>
+<body>
+<%- include('../partials/nav', { active: 'properties' }) %>
+
+<main id="main-content">
+
+<section class="page-hero">
+  <div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/properties">Properties</a> / <%= property.title %></div>
+  <h1><%= property.title %></h1>
+  <p>
+    <%- cr(property.location_name, 'Location') %> &middot;
+    <%- property.price != null ? formatPrice(property.price, property.price_currency) : cr(null, 'Price') %> &middot;
+    <%= property.status.charAt(0).toUpperCase() + property.status.slice(1) %>
+  </p>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+
+    <% if (property.images && property.images.length) { %>
+      <div class="gallery-grid">
+        <div class="img-placeholder gallery-main"><img src="<%= property.images[0].file_path %>" alt="<%= property.title %>" style="width:100%; height:100%; object-fit:cover;" /></div>
+        <div class="gallery-thumbs">
+          <% property.images.slice(1, 4).forEach(function(img) { %>
+            <div class="img-placeholder gallery-thumb"><img src="<%= img.file_path %>" alt="<%= property.title %>" style="width:100%; height:100%; object-fit:cover;" /></div>
+          <% }) %>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="gallery-grid">
+        <div class="img-placeholder gallery-main"><%- crBlock('Main property photo') %></div>
+      </div>
+    <% } %>
+
+    <div class="hero-actions" style="margin:32px 0 56px;">
+      <a href="#enquiry" class="btn btn-primary">Request a Viewing</a>
+      <a href="/advisory.html" class="btn btn-outline-navy">Talk to an Advisor</a>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:64px;">
+      <div>
+        <span class="eyebrow">Description</span>
+        <h2>About this property</h2>
+        <p style="color:var(--color-gray); margin-top:16px;"><%- cr(property.description, 'Property description') %></p>
+      </div>
+      <div>
+        <span class="eyebrow">Specifications</span>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="1"/><line x1="7" y1="9" x2="7" y2="12"/><line x1="11" y1="9" x2="11" y2="12"/><line x1="15" y1="9" x2="15" y2="12"/><line x1="19" y1="9" x2="19" y2="12"/></svg></div>
+          <div><h4>Area</h4><p><%- property.area_sqft != null ? formatArea(property.area_sqft) : cr(null, 'Area') %></p></div>
+        </div>
+        <% if (property.bedrooms != null || property.bathrooms != null) { %>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="7" rx="1"/><rect x="5" y="8" width="6" height="4" rx="1"/><line x1="3" y1="18" x2="3" y2="21"/><line x1="21" y1="18" x2="21" y2="21"/></svg></div>
+          <div><h4>Bedrooms / Bathrooms</h4><p><%= property.bedrooms != null ? property.bedrooms : '—' %> Bed / <%= property.bathrooms != null ? property.bathrooms : '—' %> Bath</p></div>
+        </div>
+        <% } %>
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"/><rect x="9" y="6.5" width="2" height="2"/><rect x="13" y="6.5" width="2" height="2"/><rect x="9" y="11" width="2" height="2"/><rect x="13" y="11" width="2" height="2"/><rect x="9" y="15.5" width="2" height="2"/><rect x="13" y="15.5" width="2" height="2"/></svg></div>
+          <div><h4>Property Type</h4><p><%= property.type.charAt(0).toUpperCase() + property.type.slice(1) %></p></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:64px;">
+      <div class="section-header center">
+        <span class="eyebrow">Features</span>
+        <h2>What's included</h2>
+      </div>
+      <% if (property.features && property.features.length) { %>
+        <ul class="feature-checklist grid-2" style="gap:8px 40px;">
+          <% property.features.forEach(function(f) { %>
+            <li><%= f.label %></li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <%- crBlock('Features have not been added for this property yet') %>
+      <% } %>
+    </div>
+
+    <div style="margin-bottom:64px;">
+      <div class="section-header center">
+        <span class="eyebrow">Location</span>
+        <h2>Where it's located</h2>
+      </div>
+      <% if (property.map_embed_url) { %>
+        <div style="border-radius:var(--radius); overflow:hidden;">
+          <iframe src="<%= property.map_embed_url %>" width="100%" height="320" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Property location"></iframe>
+        </div>
+      <% } else { %>
+        <div class="img-placeholder"><%- crBlock('Embedded map of property location') %></div>
+      <% } %>
+    </div>
+
+    <div>
+      <div class="section-header center">
+        <span class="eyebrow">Your Advisor</span>
+        <h2>Speak with the listing advisor</h2>
+      </div>
+      <% if (property.agent) { %>
+        <div class="agent-card">
+          <div class="img-placeholder">
+            <% if (property.agent.photo_path) { %>
+              <img src="<%= property.agent.photo_path %>" alt="<%= property.agent.name %>" style="width:100%; height:100%; object-fit:cover;" />
+            <% } else { %>
+              <%- crBlock('Photo') %>
+            <% } %>
+          </div>
+          <div>
+            <h4><%= property.agent.name %></h4>
+            <div class="agent-role"><%- cr(property.agent.role_title, 'Advisor title') %></div>
+            <p><%- cr(property.agent.phone, 'Advisor phone') %></p>
+            <p><%- cr(property.agent.email, 'Advisor email') %></p>
+          </div>
+        </div>
+      <% } else { %>
+        <%- crBlock('No advisor assigned to this property yet') %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt fade-in" id="enquiry">
+  <div class="container grid-2" style="align-items:flex-start;">
+    <div>
+      <span class="eyebrow">Interested?</span>
+      <h2>Request a Viewing</h2>
+      <p style="color:var(--color-gray); margin-top:16px;">Send us your details and we'll arrange a time that works for you.</p>
+    </div>
+    <div>
+      <div id="property-enquiry-success" class="form-success">Thank you — your request has been recorded. Our team will follow up shortly.</div>
+      <div id="property-enquiry-error" class="form-error"></div>
+      <form class="enquiry-form" data-success-target="#property-enquiry-success" data-error-target="#property-enquiry-error" data-endpoint="/properties/<%= property.slug %>/enquire" novalidate>
+        <div class="form-group hp-field" aria-hidden="true">
+          <label for="prop-website">Leave this field empty</label>
+          <input type="text" id="prop-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="propertySlug" value="<%= property.slug %>" />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prop-name">Full Name</label>
+            <input type="text" id="prop-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="prop-phone">Phone</label>
+            <input type="tel" id="prop-phone" name="phone" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="prop-email">Email</label>
+          <input type="email" id="prop-email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="prop-message">Message</label>
+          <textarea id="prop-message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Request a Viewing</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

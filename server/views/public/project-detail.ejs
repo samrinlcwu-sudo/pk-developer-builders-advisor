@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: project.title,
+  description: `${project.title} — project detail from PK Developer Builders & Advisor.`,
+  canonicalPath: `/projects/${project.slug}`
+}) %>
+<%
+  const projectLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: project.title,
+    url: absoluteUrl(`/projects/${project.slug}`),
+  };
+  if (project.overview) projectLd.description = project.overview;
+  if (project.images && project.images.length) {
+    projectLd.image = project.images.map((img) => absoluteUrl(img.file_path));
+  }
+  if (project.location_name) {
+    projectLd.address = { "@type": "PostalAddress", addressLocality: project.location_name };
+  }
+%>
+<%- jsonLd(projectLd) %>
+</head>
+<body>
+<%- include('../partials/nav', { active: 'projects' }) %>
+
+<main id="main-content">
+
+<section class="page-hero">
+  <div class="breadcrumb"><a href="/index.html">Home</a> / <a href="/projects">Projects</a> / <%= project.title %></div>
+  <h1><%= project.title %></h1>
+  <p><%- cr(project.location_name, 'Location') %> &middot; <%= project.status.charAt(0).toUpperCase() + project.status.slice(1) %></p>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+
+    <% if (project.images && project.images.length) { %>
+      <div class="img-placeholder" style="min-height:380px; margin-bottom:56px;">
+        <img src="<%= project.images[0].file_path %>" alt="<%= project.title %>" style="width:100%; height:100%; object-fit:cover;" />
+      </div>
+    <% } else { %>
+      <div class="img-placeholder" style="min-height:380px; margin-bottom:56px;"><%- crBlock('Hero photo of the project') %></div>
+    <% } %>
+
+    <div class="grid-2" style="margin-bottom:64px;">
+      <div>
+        <span class="eyebrow">Overview</span>
+        <h2>Concept & Vision</h2>
+        <p style="color:var(--color-gray); margin-top:16px;"><%- cr(project.overview, 'Project concept and vision — what it is, who it\'s for, and the intent behind it') %></p>
+      </div>
+      <div>
+        <span class="eyebrow">Property Type & Key Features</span>
+        <ul class="feature-checklist">
+          <li><%- cr(project.property_type, 'Property type — e.g. residential, commercial, mixed-use') %></li>
+          <% if (project.features && project.features.length) { %>
+            <% project.features.forEach(function(f) { %>
+              <li><%= f.label %></li>
+            <% }) %>
+          <% } else { %>
+            <li><%- cr(null, 'Key feature') %></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <% if (project.images && project.images.length > 1) { %>
+      <div style="margin-bottom:64px;">
+        <div class="section-header center">
+          <span class="eyebrow">Gallery</span>
+          <h2>A closer look</h2>
+        </div>
+        <div class="gallery-grid">
+          <div class="img-placeholder gallery-main"><img src="<%= project.images[0].file_path %>" alt="<%= project.title %>" style="width:100%; height:100%; object-fit:cover;" /></div>
+          <div class="gallery-thumbs">
+            <% project.images.slice(1, 4).forEach(function(img) { %>
+              <div class="img-placeholder gallery-thumb"><img src="<%= img.file_path %>" alt="<%= project.title %>" style="width:100%; height:100%; object-fit:cover;" /></div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <div style="margin-bottom:64px;">
+      <div class="section-header center">
+        <span class="eyebrow">Verified Features</span>
+        <h2>What this project includes</h2>
+      </div>
+      <div class="content-required-block" style="margin-bottom:24px;">
+        [CONTENT REQUIRED: Only list features once verified — e.g. architecture style, security provisions, parking, landscaping.]
+      </div>
+      <ul class="feature-checklist grid-2" style="gap:8px 40px;">
+        <% project.verifiedFeatures.forEach(function(v) { %>
+          <li><%- cr(v.value, v.category.charAt(0).toUpperCase() + v.category.slice(1)) %></li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:64px;">
+      <div class="section-header center">
+        <span class="eyebrow">Location</span>
+        <h2>Where it's built</h2>
+      </div>
+      <div class="img-placeholder"><%- crBlock('Embedded map of project location') %></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt fade-in" id="enquiry">
+  <div class="container grid-2" style="align-items:flex-start;">
+    <div>
+      <span class="eyebrow">Interested?</span>
+      <h2>Request Project Information</h2>
+      <p style="color:var(--color-gray); margin-top:16px;">Tell us a bit about what you're looking for and we'll follow up with details on this project.</p>
+    </div>
+    <div>
+      <div id="project-enquiry-success" class="form-success">Thank you — your request has been recorded. Our team will follow up shortly.</div>
+      <div id="project-enquiry-error" class="form-error"></div>
+      <form class="enquiry-form" data-success-target="#project-enquiry-success" data-error-target="#project-enquiry-error" data-endpoint="/projects/<%= project.slug %>/enquire" novalidate>
+        <div class="form-group hp-field" aria-hidden="true">
+          <label for="pd-website">Leave this field empty</label>
+          <input type="text" id="pd-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="projectSlug" value="<%= project.slug %>" />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pd-name">Full Name</label>
+            <input type="text" id="pd-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="pd-phone">Phone</label>
+            <input type="tel" id="pd-phone" name="phone" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pd-email">Email</label>
+          <input type="email" id="pd-email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="pd-interest">Interest</label>
+          <select id="pd-interest" name="interest">
+            <option value="buying">Buying</option>
+            <option value="investing">Investing</option>
+            <option value="general">General Information</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pd-message">Message</label>
+          <textarea id="pd-message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Request Project Information</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

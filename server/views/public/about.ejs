@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'About Us',
+  description: "Learn about PK Developer Builders & Advisor's mission, values, and team.",
+  canonicalPath: '/about.html'
+}) %>
+</head>
+<body>
+<%- include('../partials/nav', { active: 'about' }) %>
+
+<main id="main-content">
+
+<section class="page-hero">
+  <div class="breadcrumb"><a href="/index.html">Home</a> / About</div>
+  <h1>About PK Developer Builders & Advisor</h1>
+  <p>Trust, quality, and transparency across every stage of a property's life.</p>
+</section>
+
+<section class="section fade-in">
+  <div class="container grid-2">
+    <div>
+      <span class="eyebrow">Our Story</span>
+      <h2>Built on Trust. Driven by Vision.</h2>
+      <p style="color:var(--color-gray); margin-bottom:20px;">PK Developer Builders & Advisor was founded in 2010 by M. Zeeshan Awan with a clear vision: to build a real-estate business grounded in trust, quality, professional guidance, and long-term value.</p>
+      <p style="color:var(--color-gray); margin-bottom:20px;">At a time when property decisions could be complex and overwhelming, the vision was to create a business where clients could receive reliable guidance while exploring opportunities in property, development, and construction.</p>
+      <p style="color:var(--color-gray); margin-bottom:20px;">PK Developer began on a focused and determined scale, building its foundation through property advisory, client relationships, and a commitment to understanding the real needs of every client. Rather than focusing only on individual transactions, the business was built around the idea of creating lasting relationships and meaningful value.</p>
+      <p style="color:var(--color-gray); margin-bottom:20px;">From those beginnings, the company developed its identity across three connected areas — Development, Building, and Advisory.</p>
+      <blockquote class="founding-quote">Understand the client. Build with quality. Advise with integrity. Create lasting value.</blockquote>
+      <p style="color:var(--color-gray); margin-bottom:20px;">Since 2010, the journey has been shaped by a commitment to professionalism, transparency, craftsmanship, and continuous improvement — principles that continue to guide the company's approach to real estate and development.</p>
+      <p style="color:var(--color-gray);">What began with a vision to serve clients with trust and professionalism continues today with a vision to create places, relationships, and value that stand the test of time.</p>
+    </div>
+    <div class="img-placeholder"><img src="/assets/founder-office.png" alt="M. Zeeshan Awan, Founder & CEO, in the PK Developer Builders & Advisor office with an ongoing construction project visible behind him" style="width:100%; height:100%; object-fit:cover;"></div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Our Team</span>
+      <h2>The people behind PK Developer</h2>
+    </div>
+    <% if (teamMembers.length === 0) { %>
+      <div class="content-required-block">No team members published yet.</div>
+    <% } else { %>
+      <div class="grid-4" style="max-width:<%= teamMembers.length === 1 ? '270px' : '100%' %>; margin:0 auto;">
+        <% teamMembers.forEach(function(m) { %>
+          <div class="team-card">
+            <% if (m.photo_path) { %>
+              <div class="img-placeholder team-photo"><img src="<%= m.photo_path %>" alt="<%= m.name %>" style="width:100%; height:100%; object-fit:cover;" /></div>
+            <% } %>
+            <h3><%= m.name %></h3>
+            <div class="team-role"><%- cr(m.role_title, 'Role') %></div>
+            <% if (m.bio) { %><p><%= m.bio %></p><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="section section-alt fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">What Drives Us</span>
+      <h2>Mission & Vision</h2>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h3>Our Mission</h3>
+        <p style="color:var(--color-gray); margin-bottom:16px;">At PK Developer Builders & Advisor, our mission is to create lasting value through quality property development, reliable construction, and professional real-estate advisory.</p>
+        <p style="color:var(--color-gray); margin-bottom:16px;">We are committed to helping our clients make confident property decisions by combining thoughtful development, attention to detail, transparent communication, and a clear understanding of their needs.</p>
+        <p style="color:var(--color-gray);">From property selection and investment guidance to development and construction, we aim to deliver solutions built around quality, trust, and long-term value.</p>
+      </div>
+      <div>
+        <h3>Our Vision</h3>
+        <p style="color:var(--color-gray); margin-bottom:16px;">Our vision is to become a trusted and respected name in Pakistan's real-estate and property development sector, recognized for quality, professionalism, transparency, and responsible development.</p>
+        <p style="color:var(--color-gray); margin-bottom:16px;">We aspire to create properties and development opportunities that contribute to better communities while helping our clients build secure, meaningful, and long-term value through real estate.</p>
+        <p style="color:var(--color-gray);">Our goal is not simply to develop properties, but to build places, relationships, and value that stand the test of time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">What We Stand For</span>
+      <h2>Our Core Values</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><polyline points="9,12 11,14 15,10"/></svg></div>
+        <h3>Integrity</h3>
+        <p>We believe trust begins with honesty. We strive to communicate clearly, provide accurate information, and conduct our work with professionalism and transparency.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><rect x="9" y="5" width="6" height="14" rx="2"/><circle cx="12" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/></g></svg></div>
+        <h3>Quality & Craftsmanship</h3>
+        <p>We believe quality is reflected in every detail. From planning and development to construction and finishing, we aim for standards that create lasting value.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.5 3.5-7 8-7s8 2.5 8 7"/></svg></div>
+        <h3>Client First</h3>
+        <p>Every client has different goals and requirements. We listen carefully, understand their needs, and work to provide solutions that genuinely serve their interests.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="5.5"/><circle cx="12" cy="12" r="2.6"/></svg></div>
+        <h3>Transparency</h3>
+        <p>Real estate decisions require confidence. We believe in straightforward communication, clear information, and responsible guidance throughout the client journey.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="13" x2="21" y2="13"/></svg></div>
+        <h3>Professionalism</h3>
+        <p>We approach every project and client relationship with discipline, accountability, and respect.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c8-1 14-7 15-15-9 1-15 7-15 15z"/><path d="M8 16c2-2 4-4 8-8"/></svg></div>
+        <h3>Responsible Development</h3>
+        <p>We believe successful development should create value not only for investors and property owners, but also for the communities and environments in which projects are developed.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></div>
+        <h3>Long-Term Value</h3>
+        <p>We focus beyond the immediate transaction. Our aim is to create properties, projects, and relationships that deliver meaningful value over the long term.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3"/><polyline points="18,3 18,7 14,7"/><path d="M20 12a8 8 0 0 1-14 5.3"/><polyline points="6,21 6,17 10,17"/></svg></div>
+        <h3>Continuous Improvement</h3>
+        <p>The real-estate and construction industries continue to evolve. We remain committed to learning, improving our processes, and embracing better ideas, technologies, and practices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Why Choose Us</span>
+      <h2>How we work with you</h2>
+    </div>
+    <div class="value-item">
+      <div class="value-number">01</div>
+      <div>
+        <h3>Transparent from day one</h3>
+        <p>Clear timelines, honest costs, and no hidden surprises — every client knows exactly where their project stands.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-number">02</div>
+      <div>
+        <h3>One accountable team</h3>
+        <p>Development, construction, and advisory under one roof means no finger-pointing between contractors and consultants.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-number">03</div>
+      <div>
+        <h3>Quality that holds up</h3>
+        <p>We build and advise for the long term, not just the handover date.</p>
+      </div>
+    </div>
+    <div class="value-item">
+      <div class="value-number">04</div>
+      <div>
+        <h3>A client-centered approach</h3>
+        <p>Every recommendation starts with your goals and budget, not a standard package.</p>
+      </div>
+    </div>
+    <p style="color:var(--color-gray); font-size:0.92rem;">See how a project actually moves forward in <a href="/services.html#process" class="btn-outline-navy" style="display:inline-flex; padding:2px 0; border:none; text-decoration:underline;">our process &rarr;</a></p>
+  </div>
+</section>
+
+<section class="section section-alt fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">What We Do</span>
+      <h2>Three connected services, one team</h2>
+    </div>
+    <div class="grid-3">
+      <a class="card" href="/development.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"/><rect x="9" y="6.5" width="2" height="2"/><rect x="13" y="6.5" width="2" height="2"/><rect x="9" y="11" width="2" height="2"/><rect x="13" y="11" width="2" height="2"/><rect x="9" y="15.5" width="2" height="2"/><rect x="13" y="15.5" width="2" height="2"/></svg></div>
+        <h3>Property Development</h3>
+        <p>Planning and delivery of residential and commercial developments, from land assessment to handover.</p>
+      </a>
+      <a class="card" href="/construction.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><rect x="9" y="5" width="6" height="14" rx="2"/><circle cx="12" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/></g></svg></div>
+        <h3>Construction & Building</h3>
+        <p>Quality-focused construction management and on-site execution, building with purpose.</p>
+      </a>
+      <a class="card" href="/advisory.html">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="14" width="3" height="6"/><rect x="11" y="10" width="3" height="10"/><rect x="16" y="6" width="3" height="14"/></svg></div>
+        <h3>Real Estate Advisory</h3>
+        <p>Honest guidance for buyers, sellers, and investors, grounded in market data.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-in">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Expertise</span>
+      <h2>What we bring to every project</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="7.5,12.5 10.5,15.5 16.5,9"/></svg></div>
+        <h3>Transparent Process</h3>
+        <p>Clear communication at every stage, so you always know where things stand.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"/><rect x="9" y="6.5" width="2" height="2"/><rect x="13" y="6.5" width="2" height="2"/><rect x="9" y="11" width="2" height="2"/><rect x="13" y="11" width="2" height="2"/><rect x="9" y="15.5" width="2" height="2"/><rect x="13" y="15.5" width="2" height="2"/></svg></div>
+        <h3>End-to-End Development</h3>
+        <p>One team accountable from concept through delivery.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(45 12 12)"><rect x="9" y="5" width="6" height="14" rx="2"/><circle cx="12" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/></g></svg></div>
+        <h3>Quality-First Construction</h3>
+        <p>Hands-on site oversight and close contractor coordination.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="14" width="3" height="6"/><rect x="11" y="10" width="3" height="10"/><rect x="16" y="6" width="3" height="14"/></svg></div>
+        <h3>Advisory You Can Trust</h3>
+        <p>Guidance grounded in market data, not sales pressure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band fade-in">
+  <div class="container">
+    <h2>Want to know more about how we work?</h2>
+    <p>We're happy to walk you through our process, one project at a time.</p>
+    <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
+  </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

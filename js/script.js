@@ -5,9 +5,15 @@ const navLinks = document.querySelector(".nav-links");
 if (navToggle && navLinks) {
   navToggle.addEventListener("click", () => {
     navLinks.classList.toggle("open");
+    navToggle.classList.toggle("active");
+    document.body.classList.toggle("nav-open");
   });
   navLinks.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => navLinks.classList.remove("open"));
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      navToggle.classList.remove("active");
+      document.body.classList.remove("nav-open");
+    });
   });
 }
 
@@ -23,12 +29,52 @@ if (fadeEls.length) {
         }
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0, rootMargin: "0px 0px -10% 0px" }
   );
   fadeEls.forEach((el) => observer.observe(el));
 }
 
-// ===== Contact form (front-end only — no backend wired up yet) =====
+// ===== Form submission helper (shared by the contact form and every
+// .enquiry-form instance) — POSTs to the form's data-endpoint and shows
+// its success/error state. =====
+async function submitLeadForm(form, { onSuccess, onError }) {
+  const endpoint = form.dataset.endpoint;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const formData = new FormData(form);
+  const params = new URLSearchParams();
+  formData.forEach((value, key) => params.append(key, value));
+
+  if (submitBtn) submitBtn.disabled = true;
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error((data.error && data.error.message) || "Something went wrong. Please try again.");
+    }
+    onSuccess();
+  } catch (err) {
+    onError(err);
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+}
+
+function showFormError(form, message) {
+  const targetSelector = form.dataset.errorTarget;
+  const errorEl = targetSelector ? document.querySelector(targetSelector) : null;
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.classList.add("visible");
+  } else {
+    alert(message);
+  }
+}
+
+// ===== Contact form =====
 const contactForm = document.querySelector("#contact-form");
 if (contactForm) {
   contactForm.addEventListener("submit", (e) => {
@@ -39,14 +85,128 @@ if (contactForm) {
       return;
     }
 
-    // NOTE: This form does not send data anywhere yet. Wiring it to a real
-    // inbox/CRM (backend endpoint or a form service) is a setup step for
-    // the business owner — see README.md.
     const successMsg = document.querySelector("#form-success");
-    if (successMsg) {
-      contactForm.reset();
-      successMsg.classList.add("visible");
-      successMsg.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+    const errorMsg = document.querySelector(contactForm.dataset.errorTarget);
+    if (errorMsg) errorMsg.classList.remove("visible");
+    submitLeadForm(contactForm, {
+      onSuccess: () => {
+        contactForm.reset();
+        if (successMsg) {
+          successMsg.classList.add("visible");
+          successMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      },
+      onError: (err) => showFormError(contactForm, err.message),
+    });
   });
 }
+
+// ===== Property search/filter (client-side only, filters placeholder cards) =====
+function initPropertySearchFilter() {
+  const searchBar = document.querySelector(".property-search-bar");
+  const cards = document.querySelectorAll(".property-card");
+  const noResults = document.querySelector("#property-no-results");
+  if (!searchBar || !cards.length) return;
+
+  const filterIds = ["filter-type", "filter-location", "filter-price", "filter-area", "filter-bedrooms", "filter-bathrooms", "filter-status"];
+
+  function applyFilters() {
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const matches = filterIds.every((id) => {
+        const field = document.querySelector(`#${id}`);
+        const value = field ? field.value : "";
+        if (!value) return true;
+        const dataKey = id.replace("filter-", "");
+        return card.dataset[dataKey] === value;
+      });
+      card.style.display = matches ? "" : "none";
+      if (matches) visibleCount++;
+    });
+
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+  }
+
+  searchBar.addEventListener("submit", (e) => {
+    e.preventDefault();
+    applyFilters();
+  });
+}
+initPropertySearchFilter();
+
+// ===== Insights category filter =====
+function initInsightsCategoryFilter() {
+  const pills = document.querySelectorAll(".category-pill");
+  const articles = document.querySelectorAll(".article-card[data-category]");
+  if (!pills.length || !articles.length) return;
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      pills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      const category = pill.dataset.category;
+      articles.forEach((article) => {
+        article.style.display = category === "all" || article.dataset.category === category ? "" : "none";
+      });
+    });
+  });
+}
+initInsightsCategoryFilter();
+
+// ===== Enquiry forms (project/property detail pages) =====
+function initEnquiryForms() {
+  document.querySelectorAll(".enquiry-form").forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const targetSelector = form.dataset.successTarget;
+      const successMsg = targetSelector ? document.querySelector(targetSelector) : null;
+      const errorMsg = document.querySelector(form.dataset.errorTarget);
+      if (errorMsg) errorMsg.classList.remove("visible");
+      submitLeadForm(form, {
+        onSuccess: () => {
+          form.reset();
+          if (successMsg) {
+            successMsg.classList.add("visible");
+            successMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        },
+        onError: (err) => showFormError(form, err.message),
+      });
+    });
+  });
+}
+initEnquiryForms();
+
+// ===== WhatsApp click-to-chat (only appears once a real number is set
+// in the admin panel — never fabricated or guessed client-side) =====
+async function initWhatsAppButton() {
+  try {
+    const res = await fetch("/api/v1/site-settings/public");
+    if (!res.ok) return;
+    const { data } = await res.json();
+    if (!data || !data.whatsappNumber) return;
+
+    const link = document.createElement("a");
+    link.href = `https://wa.me/${data.whatsappNumber}`;
+    link.className = "whatsapp-float";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.setAttribute("aria-label", "Chat with us on WhatsApp");
+    link.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.28-1.38a9.9 9.9 0 0 0 4.76 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.24 8.24 0 0 1-4.2-1.15l-.3-.18-3.13.82.84-3.05-.2-.31a8.23 8.23 0 0 1-1.26-4.37c0-4.55 3.71-8.26 8.27-8.26 2.21 0 4.28.86 5.84 2.42a8.2 8.2 0 0 1 2.42 5.84c0 4.56-3.71 8.24-8.27 8.24zm4.53-6.19c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.81-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.24-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.3-.23.24-.86.85-.86 2.06 0 1.22.89 2.4 1.01 2.56.12.16 1.76 2.69 4.26 3.77.6.26 1.06.41 1.43.53.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>';
+    link.addEventListener("click", () => {
+      navigator.sendBeacon && navigator.sendBeacon("/whatsapp-click", new Blob([], { type: "application/x-www-form-urlencoded" }));
+    });
+    document.body.appendChild(link);
+  } catch {
+    // Silently skip — the button is a nice-to-have, never worth breaking the page over.
+  }
+}
+initWhatsAppButton();
