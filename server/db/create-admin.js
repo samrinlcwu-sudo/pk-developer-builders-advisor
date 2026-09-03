@@ -25,7 +25,13 @@ function createAdmin({ exitOnError = true } = {}) {
 
   const existing = adminUserModel.findByEmail(email);
   if (existing) {
-    console.log("[create-admin] An admin with email %s already exists. No changes made.", email);
+    if (env.adminResetPassword) {
+      const passwordHash = bcrypt.hashSync(password, 12);
+      adminUserModel.setPasswordHash(existing.id, passwordHash);
+      console.log("[create-admin] Reset password for admin user #%d (%s).", existing.id, existing.email);
+    } else {
+      console.log("[create-admin] An admin with email %s already exists. No changes made.", email);
+    }
     return;
   }
 

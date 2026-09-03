@@ -21,6 +21,11 @@ module.exports = {
   sessionSecret: required("SESSION_SECRET", "dev-only-insecure-secret-change-me"),
   adminEmail: process.env.ADMIN_EMAIL || "",
   adminPassword: process.env.ADMIN_PASSWORD || "",
+  // Opt-in, one-time flag: when true, boot-time admin bootstrap overwrites
+  // an existing admin's password with ADMIN_PASSWORD instead of leaving it
+  // alone. Meant to be set for one deploy then unset again — never left on,
+  // or every future deploy would silently reset the password back to it.
+  adminResetPassword: process.env.ADMIN_RESET_PASSWORD === "true",
   smtp: {
     host: process.env.SMTP_HOST || "",
     port: Number(process.env.SMTP_PORT) || 587,

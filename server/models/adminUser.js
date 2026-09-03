@@ -18,6 +18,12 @@ function create({ email, passwordHash, role = "admin" }) {
   return findById(Number(result.lastInsertRowid));
 }
 
+function setPasswordHash(id, passwordHash) {
+  const db = getDb();
+  db.prepare("UPDATE admin_users SET password_hash = ? WHERE id = ?").run(passwordHash, id);
+  return findById(id);
+}
+
 function touchLastLogin(id) {
   const db = getDb();
   db.prepare("UPDATE admin_users SET last_login_at = datetime('now') WHERE id = ?").run(id);
@@ -28,4 +34,4 @@ function count() {
   return db.prepare("SELECT COUNT(*) AS n FROM admin_users").get().n;
 }
 
-module.exports = { findByEmail, findById, create, touchLastLogin, count };
+module.exports = { findByEmail, findById, create, setPasswordHash, touchLastLogin, count };
