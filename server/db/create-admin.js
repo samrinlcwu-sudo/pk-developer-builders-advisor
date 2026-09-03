@@ -3,22 +3,24 @@ const env = require("../config/env");
 const { runMigrations } = require("./migrate");
 const adminUserModel = require("../models/adminUser");
 
-function createAdmin() {
+function createAdmin({ exitOnError = true } = {}) {
   runMigrations();
 
   const email = env.adminEmail;
   const password = env.adminPassword;
+  const fail = (message) => {
+    console.error(message);
+    if (exitOnError) process.exit(1);
+  };
 
   if (!email || !password) {
-    console.error(
-      "[create-admin] Set ADMIN_EMAIL and ADMIN_PASSWORD in your .env file before running this script."
-    );
-    process.exit(1);
+    fail("[create-admin] Set ADMIN_EMAIL and ADMIN_PASSWORD in your .env file before running this script.");
+    return;
   }
 
   if (password.length < 8) {
-    console.error("[create-admin] ADMIN_PASSWORD must be at least 8 characters.");
-    process.exit(1);
+    fail("[create-admin] ADMIN_PASSWORD must be at least 8 characters.");
+    return;
   }
 
   const existing = adminUserModel.findByEmail(email);
