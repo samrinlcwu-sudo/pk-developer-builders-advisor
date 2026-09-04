@@ -3,7 +3,7 @@ const PROPERTY_STATUSES = ["available", "under-offer", "sold", "rented"];
 const PROJECT_STATUSES = ["upcoming", "ongoing", "completed", "available"];
 const VERIFIED_FEATURE_CATEGORIES = ["architecture", "security", "parking", "landscaping"];
 const ARTICLE_CATEGORIES = ["real-estate", "investment", "construction", "development", "market-insights", "guides"];
-const ENQUIRY_TYPES = ["consultation", "property-info", "project-info", "viewing", "advisory", "contact", "whatsapp-click"];
+const ENQUIRY_TYPES = ["consultation", "property-info", "project-info", "viewing", "advisory", "contact", "whatsapp-click", "chatbot"];
 const ENQUIRY_STATUSES = ["new", "contacted", "qualified", "closed"];
 
 function toNullableNumber(value) {

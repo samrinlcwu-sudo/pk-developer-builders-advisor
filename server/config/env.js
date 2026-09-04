@@ -34,6 +34,10 @@ module.exports = {
     from: process.env.SMTP_FROM || "",
   },
   notifyToEmail: process.env.NOTIFY_TO_EMAIL || "",
+  anthropic: {
+    apiKey: process.env.ANTHROPIC_API_KEY || "",
+    model: process.env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001",
+  },
   publicSiteOrigin: process.env.PUBLIC_SITE_ORIGIN || `http://localhost:${Number(process.env.PORT) || 5588}`,
   dbPath: path.join(dataDir, "data.sqlite"),
   uploadsDir: path.join(dataDir, "uploads"),

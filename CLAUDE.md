@@ -103,7 +103,18 @@ other page above is still a plain `.html` file served as-is.
   notification pipeline is now wired up in code, but makes zero real
   network calls until `SMTP_HOST`/`NOTIFY_TO_EMAIL` are filled into
   `.env` — until then every enquiry still persists, it just logs
-  "SMTP not configured" instead of emailing anyone.
+  "SMTP not configured" instead of emailing anyone. The AI chat widget
+  (`server/services/chatbot.js`, calling the Anthropic API from the
+  server — the key never reaches the browser) was added with explicit
+  permission; it makes zero real network calls until `ANTHROPIC_API_KEY`
+  is set, showing a "not set up yet" message instead. Its system prompt
+  restricts it to real published Property/Project/SiteSettings data
+  fetched fresh per request and explicitly forbids inventing facts or
+  promising guaranteed returns — the Non-Negotiable Content Rule applies
+  to its output exactly as it does to every static page. Anything outside
+  that scope is handed off via a `capture_lead` tool call that writes
+  into the same `enquiries` table as the other public forms (`type =
+  'chatbot'`), not a separate pipeline.
 - The WhatsApp click-to-chat button (`initWhatsAppButton()` in
   `js/script.js`) only renders once a real number is entered at
   `/admin/site-settings` — never hard-code or guess a number, even one

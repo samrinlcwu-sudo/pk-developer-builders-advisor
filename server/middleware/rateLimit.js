@@ -22,4 +22,15 @@ const adminLoginLimiter = rateLimit({
   message: { error: { message: "Too many login attempts. Please try again later.", code: "RATE_LIMITED" } },
 });
 
-module.exports = { publicWriteLimiter, adminLoginLimiter };
+// Chat is a back-and-forth conversation, not a single form submit, so it
+// needs a more generous allowance than publicWriteLimiter — but still
+// bounded, since every message is a paid API call.
+const chatLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: { message: "Too many messages. Please try again in a few minutes.", code: "RATE_LIMITED" } },
+});
+
+module.exports = { publicWriteLimiter, adminLoginLimiter, chatLimiter };

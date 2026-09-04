@@ -26,6 +26,7 @@ const publicProjectsRoutes = require("./routes/public/projects");
 const publicInsightsRoutes = require("./routes/public/insights");
 const publicPagesRoutes = require("./routes/public/pages");
 const publicEnquiriesRoutes = require("./routes/public/enquiries");
+const publicChatRoutes = require("./routes/public/chat");
 const publicSitemapRoutes = require("./routes/public/sitemap");
 const apiV1PropertiesRoutes = require("./routes/api/v1/properties");
 const apiV1SiteSettingsRoutes = require("./routes/api/v1/siteSettings");
@@ -121,6 +122,7 @@ function createApp() {
   app.use("/", publicProjectsRoutes);
   app.use("/", publicInsightsRoutes);
   app.use("/", publicEnquiriesRoutes);
+  app.use("/", publicChatRoutes);
   app.use("/", publicSitemapRoutes);
 
   // Static assets and the untouched marketing pages (services/development/
