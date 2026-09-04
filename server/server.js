@@ -3,6 +3,7 @@ const { runMigrations } = require("./db/migrate");
 const { createAdmin } = require("./db/create-admin");
 const { migrate: migrateStaticContent } = require("./seed/migrate-static-content");
 const { migrate: migrateRealContent } = require("./seed/migrate-real-content");
+const { migrate: migrateRealArticles } = require("./seed/migrate-real-articles");
 const { createApp } = require("./app");
 
 runMigrations();
@@ -26,6 +27,7 @@ if (env.adminEmail && env.adminPassword) {
 try {
   migrateStaticContent();
   migrateRealContent();
+  migrateRealArticles();
 } catch (err) {
   console.error("[server] Real-content migration failed:", err.message);
 }
